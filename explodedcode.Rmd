@@ -1,8 +1,59 @@
 ---
-output: github_document
+title: "Exploded code"
+subtitle: "Using flipbookr and xaringan"
+author: "Me"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    css: [default, hygge, ninjutsu]
+    nature:
+      ratio: 16:9
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
 ---
 
+
+```{r, include = F}
+# This is the recommended set up for flipbooks
+# you might think about setting cache to TRUE as you gain practice --- building flipbooks from scratch can be time consuming
+knitr::opts_chunk$set(fig.width = 6, message = F, warning = FALSE, comment = "", cache = T)
+
+options(tibble.print_min = 55)
+options(knitr.duplicate.label = "allow")
+options(width=300) # prevents data wrapping 
+```
+
+
+```{css, eval = TRUE, echo = FALSE}
+.remark-code{line-height: 1.5; font-size: 40%}
+
+@media print {
+  .has-continuation {
+    display: block;
+  }
+}
+
+code.r.hljs.remark-code{
+  position: relative;
+  overflow-x: hidden;
+}
+
+
+code.r.hljs.remark-code:hover{
+  overflow-x:visible;
+  width: 500px;
+  border-style: solid;
+}
+```
+
+
 <!-- README.md is generated from README.Rmd. Please edit that file -->
+
+---
+
+
+
 
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
@@ -15,7 +66,13 @@ knitr::opts_chunk$set(
 )
 ```
 
-```{r}
+---
+
+
+`r flipbookr::chunk_reveal("ggstamp", left_assign = "detect")`
+
+
+```{r ggstamp, include = FALSE}
 library(tidyverse)
 library(ggstamp)  
 set.seed(1243)
@@ -40,7 +97,7 @@ tibble::tibble(x = rnorm(40000, sd = .7),
              x = .7, y = -1.45, size = 1.8,
              color = "grey85") + 
   stamp_polygon(radius = 2, 
-                alpha = 0, size = 2,
+                alpha = 0, size = 3,
                 color = "plum3") + 
   theme_void() +
   ggxmean::stamp_normal_dist(sd = .2, alpha = .8, height = 1.5) + 
@@ -50,15 +107,20 @@ tibble::tibble(x = rnorm(40000, sd = .7),
 
 
 
-```{r}
+---
+
+
+`r flipbookr::chunk_reveal("ggsample", left_assign = "detect", break_type = 20)`
+
+
+```{r ggsample, include = FALSE}
 magick::image_read("pngs/noun_hat_2167247.png") %>% 
   magick::image_flip() %>% 
   magick::image_write("pngs/my_hat.png")
 
 library(ggstamp)  
-set.seed(1243)
-tibble::tibble(x = rnorm(5000, sd = .9, mean = -.45),
-       y = rnorm(5000, sd = .9, mean = -.75)) %>% 
+tibble::tibble(x = rnorm(50000, sd = 1.2, mean = -.45),
+       y = rnorm(50000, sd = 1.2, mean = -.75)) %>% 
   ggplot() + 
   aes(x = x, y = y) +
   stamp_polygon(radius = 2, size = 3.5,
@@ -70,10 +132,9 @@ tibble::tibble(x = rnorm(5000, sd = .9, mean = -.45),
   coord_equal(xlim = c(-2,2), ylim = c(-2,2)) + 
   stamp_polygon_inverse(radius = 2, radius_outer = Inf
                         ) +
-  stamp_polygon(radius = 2, size = 3.5,
+  stamp_polygon(radius = 2, size = 5.5,
                 color = "grey20",
                         alpha = 0
-                
                         ) +
   stamp_png2(png = "pngs/noun_Grabbing Hand_2312499.png",
              width = 2.5,
@@ -87,16 +148,10 @@ tibble::tibble(x = rnorm(5000, sd = .9, mean = -.45),
              width = 2.7, 
              color = "grey20") + 
   theme_void() +
-  # stamp_text(angle = 30, label = "ggsample", 
-  #            x = .72, y = -1.25, size = 10,
-  #            color = "grey20") + 
-  # stamp_text(angle = 30, label = "github.com/EvaMaeRey/ggsample",
-  #            x = .7, y = -1.45, size = 1.8,
-  #            color = "grey85") + 
   stamp_text(x = runif(6, min = -.75, max = -.05),
              y = runif(6, min = -1.15, max = -.45),
              angle = sample(1:6)*20,
-             size = 8,
+             size = 10,
              alpha = 1,
              color = "grey20",
              label = sample("sample" %>% 
@@ -107,7 +162,7 @@ tibble::tibble(x = rnorm(5000, sd = .9, mean = -.45),
       stamp_text(x = rnorm(2, mean = 0, sd = .1),
              y = rnorm(2, mean = 0, sd = .1),
              angle = sample(1:2)*20,
-             size = 8,
+             size = 12,
              alpha = 1,
              color = "grey20",
              label = sample("gg" %>% 
